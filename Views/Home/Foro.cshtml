@@ -1,0 +1,67 @@
+﻿@using proyecto2.Helpers;
+@model List<Post>
+<h1>Foro de discusión</h1>
+@if(SessionHelper.IsLoggedIn(Context))
+{
+    <div>
+        <a class="btn btn-primary btn-lg mb-5" asp-controller="Home" asp-action="CreatePost">
+            Crear discusión
+        </a>
+    </div>
+}
+
+@{
+    if (Model == null || Model.Count == 0)
+    {
+        <p>Por el momento no hay discusiones abiertas...</p>
+    }
+
+    else
+    {
+        foreach (var entry in Model)
+        {
+            <div class="post">
+                <div class="post-header">
+                    <div class="profile-picture">
+                        @{
+                            if (entry.Account.ProfilePicPath == null || entry.Account.ProfilePicPath == string.Empty)
+                            {
+                                <img src="~/icons/profile-user.png" alt="Foto de perfil" />
+                            }
+
+                            else 
+                            {
+                                <img src="@entry.Account.ProfilePicPath" /> 
+                            }
+                        }
+                    </div>
+                    <div class="post-details">
+                        <p><b>@entry.Title</b></p>
+                        <p>Publicado por: @entry.Account.Name</p>
+                        <p>@entry.CreatedDate</p>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <b>Descripción:</b>
+                    @entry.Description
+                </div>
+                @if (entry.PostPicPath != null || entry.PostPicPath != string.Empty)
+                {
+                    <div class="post-image">
+                        <img src="@entry.PostPicPath"/>
+                    </div>
+                }
+                <div class="post-options">
+                    <a asp-action="ViewPost" asp-route-id="@entry.Id" class="btn btn-primary">Ver discusión</a>
+                    @{
+                        if ((SessionHelper.IsLoggedIn(Context) && Convert.ToInt32(SessionHelper.GetUserId(Context)) == entry.AccountId) || (SessionHelper.IsLoggedIn(Context) && SessionHelper.IsAdmin(Context)))
+                        {
+                            <a asp-action="DeletePost" asp-route-id="@entry.Id" class="btn btn-danger">Borrar Post</a>
+                            <a asp-action="EditPost" asp-route-id="@entry.Id" class="btn btn-warning">Editar Post</a>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+}

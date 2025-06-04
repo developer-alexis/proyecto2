@@ -1,0 +1,26 @@
+﻿@model List<Review>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nombre del usuario</th>
+            <th scope="col">Titulo de la reseña</th>
+            <th scope="col">Contenido</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach(var entry in Model)
+        {
+            <tr>
+                <td>@entry.Name</td>
+                <td>@entry.Title</td>
+                <td>@entry.Comment</td>
+                <td>
+                    <a asp-action="DeleteReview" asp-route-id="@entry.Id" class="btn btn-warning">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

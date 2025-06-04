@@ -1,0 +1,17 @@
+﻿@model Post
+<h1 class="mb-3">Editar una discusion</h1>
+<form asp-action="EditPost" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Title">Nuevo titulo</label>
+        <input asp-for="Title" type="text" class="form-control" placeholder="Nuevo titulo de la discusion">
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Description">Nueva descripcion</label>
+        <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="PostPicPath">Subir una imagen</label>
+        <input asp-for="PostPicPath" type="file" class="form-control" accept="image/*" placeholder="Subir una imagen">
+    </div>
+    <button type="submit" class="btn btn-secondary">Continuar</button>
+</form>

@@ -1,0 +1,84 @@
+﻿@using proyecto2.Helpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/layout.css" />
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/foro.css" />
+</head>
+
+<body>
+    <nav class="navbar-main">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/icons/c-sharp.png" alt="logo principal" />
+            </a>
+            <a asp-controller="Home" asp-action="Noticias">Noticias</a>
+            <a asp-controller="Home" asp-action="Foro">Foro</a>
+            <a asp-controller="Home" asp-action="Productos">Productos</a>
+
+        <div class="botones">
+            @if (SessionHelper.IsAdmin(Context))
+            {
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Opciones de Admin
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="ReviewList">Ver reseñas</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="ProductList">Ver productos</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AnnouncementList">Hacer anuncio</a></li>
+                    </ul>
+                </div>
+            }
+
+            @{
+                if (SessionHelper.IsLoggedIn(Context))
+                {
+                    <p>Bienvenido @SessionHelper.GetUserName(Context)</p>
+                    <a asp-controller="Home" asp-action="Logout">Salir</a>
+                }
+
+                else
+                {
+                    <a asp-controller="Home" asp-action="Registro">Registrarse</a>
+                    <a asp-controller="Home" asp-action="InicioSesion">Iniciar Sesión</a>
+                }
+            }
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer-main">
+        <div class="parte-izquierda">
+            <p>Redes Sociales:</p>
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="~/icons/facebook.png" alt="facebook" title="facebook logo" />
+            </a>
+            <a href="https://youtube.com" target="_blank">
+                <img src="~/icons/youtube.png" alt="youtube" title="youtube logo" />
+            </a>
+        </div>
+        <a class="privacy-link" asp-controller="Home" asp-action="Privacy">Aviso de Privacidad</a>
+        <div class="parte-derecha">
+            <p>Contacto:</p>
+            <a asp-controller="Home" asp-action="Contacto">
+                <img class="email-logo" src="~/icons/email.png" alt="email" />
+            </a>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
